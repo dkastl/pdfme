@@ -1,3 +1,7 @@
+import { PropPanelSchema, ZOOM } from '@pdfme/common';
+import { DEFAULT_MAX_ZOOM_TO_EXTENT, DEFAULT_MAP_STYLE_OPACITY } from './constants';
+import type { MapState } from './types';
+
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { OSM, Vector as VectorSource } from 'ol/source';
@@ -12,12 +16,6 @@ import Stroke from 'ol/style/Stroke';
 
 import 'ol/ol.css';
 
-interface MapState {
-  center: [number, number];
-  zoom: number;
-  dataUrl: string;
-}
-
 const mapStates: Record<string, MapState> = {};
 
 const saveMapState = (key: string, state: MapState): void => {
@@ -28,31 +26,33 @@ const saveMapState = (key: string, state: MapState): void => {
 const loadMapState = (key: string): MapState | null => {
   return mapStates[key] || null;
 }
+/**
+ * Setup the map instance
+ * @param schema
+ * @param rootElement
+ * @param mode
+ * @param key
+ * @returns
+ */
+export const setupMap = (schema: PropPanelSchema, rootElement: HTMLDivElement, mode: string, key: string) => {
 
-export const setupMap = (mapDiv: HTMLElement, mode: string, key: string) => {
+  const mapDiv = document.createElement('div') as HTMLDivElement;
+  mapDiv.style.width = `${schema.width as number * ZOOM}px`;
+  mapDiv.style.height = `${schema.height as number * ZOOM}px`;
+  rootElement.appendChild(mapDiv);
+
   const raster = new TileLayer({ source: new OSM() });
 
   const pointStyle = new Style({
     image: new CircleStyle({
       radius: 10,
-      fill: new Fill({ color: 'red' }),
-      stroke: new Stroke({ color: 'white', width: 2 })
+      fill: new Fill(schema.mapStyle.stroke),
+      stroke: new Stroke(schema.mapStyle.fill)
     })
   });
 
-  const geojsonObject = {
-    'type': 'FeatureCollection',
-    'features': [{
-      'type': 'Feature',
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [135.2765, 34.7248] // Longitude, Latitude
-      }
-    }]
-  };
-
   const vectorSource = new VectorSource({
-    features: new GeoJSON().readFeatures(geojsonObject, {
+    features: new GeoJSON().readFeatures(schema.geojson, {
       dataProjection: 'EPSG:4326',
       featureProjection: 'EPSG:3857'
     })
@@ -61,7 +61,7 @@ export const setupMap = (mapDiv: HTMLElement, mode: string, key: string) => {
   const vector = new VectorLayer({
     source: vectorSource as any,
     style: pointStyle,
-    opacity: 0.5,
+    opacity: DEFAULT_MAP_STYLE_OPACITY ? DEFAULT_MAP_STYLE_OPACITY : 0.7,
   });
 
   const attributionControl = new Attribution({
@@ -72,8 +72,10 @@ export const setupMap = (mapDiv: HTMLElement, mode: string, key: string) => {
     layers: [raster, vector],
     target: mapDiv,
     view: new View({
-      center: [0, 0],
-      zoom: 2,
+      center: [
+        schema.mapView.center.lon as number, 
+        schema.mapView.center.lat as number],
+      zoom: schema.mapView.zoom as number,
     }),
     controls: mode === 'viewer' ? [attributionControl] : undefined,
     interactions: mode === 'viewer' ? [] : undefined,
@@ -85,14 +87,24 @@ export const setupMap = (mapDiv: HTMLElement, mode: string, key: string) => {
     map.getView().setCenter(savedState.center);
     map.getView().setZoom(savedState.zoom);
   } else {
-    map.getView().fit(vectorSource.getExtent(), { maxZoom: 7 });
+    map.getView().fit(vectorSource.getExtent(), { 
+      maxZoom: DEFAULT_MAX_ZOOM_TO_EXTENT ? DEFAULT_MAX_ZOOM_TO_EXTENT : 7 
+    });
   }
   
   return map;
 };
 
+// Debounce timer
 let debounceTimer: any;
 
+/**
+ * Update the map and trigger onChange
+ * @param map 
+ * @param key 
+ * @param onChange 
+ * @param debounceTime 
+ */
 export const updateMap = (map: any, key: string, onChange: Function, debounceTime = 1000) => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {

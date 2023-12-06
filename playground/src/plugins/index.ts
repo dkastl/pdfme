@@ -1,5 +1,5 @@
 import { signature } from './signature'
-import { mapimage } from './map'
+import { mapimage } from './map/index'
 
 const plugins = {
     signature, mapimage

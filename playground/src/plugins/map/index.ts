@@ -1,20 +1,16 @@
-// map.ts
-import { ZOOM, Plugin, Schema } from '@pdfme/common';
+import { Plugin } from '@pdfme/common';
 import { image } from '@pdfme/schemas';
-import { setupMap, updateMap } from "./helper";
 
-interface MapImage extends Schema {}
+import type { MapImage } from './types';
+
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_MAP_VIEW, DEFAULT_MAP_STYLE_FILL, DEFAULT_MAP_STYLE_STROKE, DEFAULT_GEOJSON } from "./constants";
+import { setupMap, updateMap } from "./helper";
 
 const ui = async (props: any) => {
   const { schema, onChange, rootElement, mode, key } = props;
 
-  const mapDiv = document.createElement('div') as HTMLDivElement;
-  mapDiv.style.width = `${schema.width * ZOOM}px`;
-  mapDiv.style.height = `${schema.height * ZOOM}px`;
-  rootElement.appendChild(mapDiv);
-
   // Create and setup the map instance
-  const map = setupMap(mapDiv, mode, key); 
+  const map = setupMap(schema, rootElement, mode, key); 
 
   // Attach moveend event listener
   map.on('moveend', () => {
@@ -29,9 +25,15 @@ const propPanel = {
   defaultValue: '',
   defaultSchema: {
     type: 'mapimage',
-    position: { x: 10.0, y: 10.0 },
-    width: 80.0,
-    height: 60.0
+    position: { x: 0, y: 0 },
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    mapView: DEFAULT_MAP_VIEW,
+    mapStyle: {
+      fill: DEFAULT_MAP_STYLE_FILL,
+      stroke: DEFAULT_MAP_STYLE_STROKE
+    },
+    geojson: DEFAULT_GEOJSON
   },
 };
 
