@@ -47,6 +47,7 @@ export const signature: Plugin<Signature> = {
         onChange && onChange('');
       });
       rootElement.appendChild(clearButton);
+      console.log('signaturePad');
       signaturePad.addEventListener('endStroke', () => {
         const data = signaturePad.toDataURL('image/png');
         onChange && data && onChange(data);
