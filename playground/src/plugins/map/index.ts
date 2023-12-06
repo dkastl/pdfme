@@ -1,4 +1,4 @@
-import { Plugin } from '@pdfme/common';
+import { Plugin, UIRenderProps } from '@pdfme/common';
 import { image } from '@pdfme/schemas';
 
 import type { MapImage } from './types';
@@ -6,16 +6,24 @@ import type { MapImage } from './types';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_MAP_VIEW, DEFAULT_MAP_STYLE_FILL, DEFAULT_MAP_STYLE_STROKE, DEFAULT_GEOJSON } from "./constants";
 import { setupMap, updateMap } from "./helper";
 
-const ui = async (props: any) => {
-  const { schema, onChange, rootElement, mode, key } = props;
+const ui = async (props: UIRenderProps<MapImage>) => {
+  const { schema, rootElement, mode, key } = props;
 
-  // Create and setup the map instance
-  const map = setupMap(schema, rootElement, mode, key); 
+  try {
+    const map = await setupMap(schema, rootElement, mode, key);
 
-  // Attach moveend event listener
-  map.on('moveend', () => {
-    updateMap(map, key, onChange);
-  });
+    map.on('moveend', async () => {
+      try {
+        const dataUrl = await updateMap(map, key);
+        console.log('dataUrl', dataUrl.length);
+        schema.data = dataUrl;
+      } catch (error) {
+        console.error("Error in moveend event: ", error);
+      }
+    });
+  } catch (error) {
+    console.error("Error setting up the map: ", error);
+  }
 };
 
 const pdf = image.pdf;
