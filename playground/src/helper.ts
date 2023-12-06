@@ -100,6 +100,7 @@ export const getPlugins = () => {
     Signature: plugins.signature,
     QR: barcodes.qrcode,
     Image: image,
+    Map: plugins.mapimage,
   };
 };
 

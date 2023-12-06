@@ -1,7 +1,8 @@
 import { signature } from './signature'
+import { mapimage } from './map'
 
 const plugins = {
-    signature
+    signature, mapimage
 }
 
 export default plugins
