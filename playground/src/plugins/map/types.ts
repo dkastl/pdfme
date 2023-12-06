@@ -1,5 +1,18 @@
 import { Schema } from '@pdfme/common';
 
+interface GeoJSONFeature {
+  type: string;
+  geometry: {
+    type: string;
+    coordinates: [number, number];
+  };
+}
+
+export interface GeoJSONType {
+  type: string;
+  features: GeoJSONFeature[];
+}
+
 export interface MapImage extends Schema {
   mapView: {
     center: {
@@ -17,7 +30,7 @@ export interface MapImage extends Schema {
       color: string;
     }
   },
-  geojson: object
+  geojson?: GeoJSONType
 };
 
 export interface MapState {

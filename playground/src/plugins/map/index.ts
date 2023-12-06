@@ -29,7 +29,34 @@ const ui = async (props: UIRenderProps<MapImage>) => {
 const pdf = image.pdf;
 
 const propPanel = {
-  schema: {},
+  schema: {
+    'pointLocation': {
+      type: 'object',
+      title: 'Point Location (WGS84)',
+      properties: {
+        'lon': {
+          title: 'Longitude',
+          type: 'number',
+          default: DEFAULT_GEOJSON.features[0].geometry.coordinates[0],
+          props: {
+            placeholder: 'Enter longitude'
+          },
+          min: -180,
+          max: 180,
+        },
+        'lat': {
+          title: 'Latitude',
+          type: 'number',
+          default: DEFAULT_GEOJSON.features[0].geometry.coordinates[1],
+          props: {
+            placeholder: 'Enter latitude'
+          },
+          min: -90,
+          max: 90,
+        }
+      }
+    }
+  },
   defaultValue: '',
   defaultSchema: {
     type: 'mapimage',
@@ -41,7 +68,10 @@ const propPanel = {
       fill: DEFAULT_MAP_STYLE_FILL,
       stroke: DEFAULT_MAP_STYLE_STROKE
     },
-    geojson: DEFAULT_GEOJSON
+    pointLocation: {
+      lon: DEFAULT_GEOJSON.features[0].geometry.coordinates[0],
+      lat: DEFAULT_GEOJSON.features[0].geometry.coordinates[1],
+    },
   },
 };
 

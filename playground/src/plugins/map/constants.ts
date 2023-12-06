@@ -1,3 +1,5 @@
+import type { GeoJSONType } from './types';
+
 export const DEFAULT_WIDTH = 80;
 export const DEFAULT_HEIGHT = 60;
 
@@ -22,7 +24,7 @@ export const DEFAULT_MAP_STYLE_STROKE = {
 
 export const DEFAULT_MAP_STYLE_OPACITY = 0.7;
 
-export const DEFAULT_GEOJSON = {
+export const DEFAULT_GEOJSON: GeoJSONType = {
   'type': 'FeatureCollection',
   'features': [{
     'type': 'Feature',

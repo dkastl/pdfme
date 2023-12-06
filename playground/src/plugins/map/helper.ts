@@ -1,5 +1,5 @@
 import { PropPanelSchema, ZOOM } from '@pdfme/common';
-import { DEFAULT_MAX_ZOOM_TO_EXTENT, DEFAULT_MAP_STYLE_OPACITY } from './constants';
+import { DEFAULT_MAX_ZOOM_TO_EXTENT, DEFAULT_MAP_STYLE_OPACITY, DEFAULT_GEOJSON } from './constants';
 import type { MapState } from './types';
 
 import Map from 'ol/Map';
@@ -58,8 +58,10 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
   mapDiv.style.height = `${schema.height! as number * ZOOM}px`;
   rootElement.appendChild(mapDiv);
 
+  // TODO: Add support for multiple layers provided through schema.mapView
   const raster = new TileLayer({ source: new OSM() });
 
+  // Todo: Add support for multiple styles provided through schema.mapStyle
   const pointStyle = new Style({
     image: new CircleStyle({
       radius: 10,
@@ -68,8 +70,25 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
     })
   });
 
+  // TODO: Add support for multiple features provided through schema.geojson
+  const geojsonFeature = {
+    ...DEFAULT_GEOJSON,
+    features: DEFAULT_GEOJSON.features.map(feature => {
+      if (feature.geometry.type === "Point") {
+        return {
+          ...feature,
+          geometry: {
+            ...feature.geometry,
+            coordinates: [schema.pointLocation.lon, schema.pointLocation.lat]
+          }
+        };
+      }
+      return feature;
+    })
+  };
+
   const vectorSource = new VectorSource({
-    features: new GeoJSON().readFeatures(schema.geojson, {
+    features: new GeoJSON().readFeatures(geojsonFeature, {
       dataProjection: 'EPSG:4326',
       featureProjection: 'EPSG:3857'
     })
