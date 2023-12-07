@@ -8,6 +8,8 @@ import { OSM, Vector as VectorSource } from 'ol/source';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import Attribution from 'ol/control/Attribution';
 import GeoJSON from 'ol/format/GeoJSON';
+import { DragRotateAndZoom, defaults as defaultInteractions } from 'ol/interaction';
+
 
 import Style from 'ol/style/Style';
 import CircleStyle from 'ol/style/Circle';
@@ -116,7 +118,7 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
           zoom: schema.mapView.zoom as number,
         }),
         controls: mode === 'viewer' ? [attributionControl] : undefined,
-        interactions: mode === 'viewer' ? [] : undefined,
+        interactions: mode === 'viewer' ? defaultInteractions().extend([new DragRotateAndZoom()]) : undefined,
       });
 
       // Restore saved state if available
@@ -124,10 +126,12 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
       if (savedState) {
         map.getView().setCenter(savedState.center);
         map.getView().setZoom(savedState.zoom);
+        map.getView().setRotation(savedState.rotation);
       } else {
         map.getView().fit(vectorSource.getExtent(), { 
           maxZoom: DEFAULT_MAX_ZOOM_TO_EXTENT ? DEFAULT_MAX_ZOOM_TO_EXTENT : 7 
         });
+        map.getView().setRotation(schema.mapView.rotation as number ? schema.mapView.rotation as number : 0);
       }
 
       resolve(map); // Resolve the promise with the map instance
@@ -205,6 +209,7 @@ const generateDataUrl = (map: Map, key: string) => {
     const newState: MapState = {
       center: view.getCenter() as [number, number],
       zoom: view.getZoom() as number,
+      rotation: view.getRotation() as number,
       dataUrl: data
     };
     saveMapState(key, newState);

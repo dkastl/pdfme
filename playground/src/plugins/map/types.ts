@@ -19,6 +19,7 @@ export interface MapImage extends Schema {
       lon: number;
       lat: number;
     };
+    rotation?: number;
     zoom: number;
   },
   mapStyle: {
@@ -36,5 +37,6 @@ export interface MapImage extends Schema {
 export interface MapState {
   center: [number, number];
   zoom: number;
+  rotation: number;
   dataUrl: string;
 }
