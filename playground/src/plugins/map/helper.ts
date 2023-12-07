@@ -9,15 +9,11 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import { OSM, Vector as VectorSource } from 'ol/source';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
-import Attribution from 'ol/control/Attribution';
-import GeoJSON from 'ol/format/GeoJSON';
+import { Attribution, ZoomToExtent, defaults as defaultControls } from 'ol/control';
+import { Style, Circle as CircleStyle , Fill, Stroke } from 'ol/style';
 import { DragRotateAndZoom, defaults as defaultInteractions } from 'ol/interaction';
 import { transformExtent } from 'ol/proj';
-
-import Style from 'ol/style/Style';
-import CircleStyle from 'ol/style/Circle';
-import Fill from 'ol/style/Fill';
-import Stroke from 'ol/style/Stroke';
+import { GeoJSON } from 'ol/format';
 
 import 'ol/ol.css';
 
@@ -109,6 +105,14 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
     collapsible: false,
   });
 
+  const zoomToExtentControl = new ZoomToExtent({
+    extent: vectorSource.getExtent(),
+    label: 'E',
+    tipLabel: 'Zoom to extent',
+  });
+
+  const dragRotateAndZoomControl = new DragRotateAndZoom();
+
   return new Promise((resolve, reject) => {
     try {
       const map = new Map({
@@ -123,8 +127,8 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
           maxZoom: DEFAULT_MAX_ZOOM,
           extent: transformExtent(DEFAULT_MAX_EXTENT, 'EPSG:4326', 'EPSG:3857'),
         }),
-        controls: mode === 'viewer' ? [attributionControl] : undefined,
-        interactions: mode === 'viewer' ? defaultInteractions().extend([new DragRotateAndZoom()]) : undefined,
+        controls: mode === 'viewer' ? [attributionControl] : defaultControls().extend([attributionControl,zoomToExtentControl]),
+        interactions: mode === 'viewer' ? defaultInteractions().extend([dragRotateAndZoomControl]) : defaultInteractions().extend([dragRotateAndZoomControl]),
       });
 
       // Restore saved state if available
