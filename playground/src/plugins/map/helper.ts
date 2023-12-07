@@ -1,5 +1,8 @@
 import { PropPanelSchema, ZOOM } from '@pdfme/common';
-import { DEFAULT_MAX_ZOOM_TO_EXTENT, DEFAULT_MAP_STYLE_OPACITY, DEFAULT_GEOJSON } from './constants';
+import { 
+  DEFAULT_MAX_ZOOM_TO_EXTENT, DEFAULT_MAP_STYLE_OPACITY, DEFAULT_GEOJSON, 
+  DEFAULT_MAX_EXTENT, DEFAULT_MIN_ZOOM, DEFAULT_MAX_ZOOM, 
+} from './constants';
 import type { MapState } from './types';
 
 import Map from 'ol/Map';
@@ -9,7 +12,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import Attribution from 'ol/control/Attribution';
 import GeoJSON from 'ol/format/GeoJSON';
 import { DragRotateAndZoom, defaults as defaultInteractions } from 'ol/interaction';
-
+import { transformExtent } from 'ol/proj';
 
 import Style from 'ol/style/Style';
 import CircleStyle from 'ol/style/Circle';
@@ -116,6 +119,9 @@ export const setupMap = async (schema: PropPanelSchema, rootElement: HTMLDivElem
             schema.mapView.center.lon as number, 
             schema.mapView.center.lat as number],
           zoom: schema.mapView.zoom as number,
+          minZoom: DEFAULT_MIN_ZOOM,
+          maxZoom: DEFAULT_MAX_ZOOM,
+          extent: transformExtent(DEFAULT_MAX_EXTENT, 'EPSG:4326', 'EPSG:3857'),
         }),
         controls: mode === 'viewer' ? [attributionControl] : undefined,
         interactions: mode === 'viewer' ? defaultInteractions().extend([new DragRotateAndZoom()]) : undefined,

@@ -3,7 +3,10 @@ import { image } from '@pdfme/schemas';
 
 import type { MapImage } from './types';
 
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_MAP_VIEW, DEFAULT_MAP_STYLE_FILL, DEFAULT_MAP_STYLE_STROKE, DEFAULT_GEOJSON } from "./constants";
+import { 
+  DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_MAP_VIEW, 
+  DEFAULT_MAP_STYLE_FILL, DEFAULT_MAP_STYLE_STROKE, DEFAULT_GEOJSON 
+} from './constants';
 import { setupMap, updateMap } from "./helper";
 
 const ui = async (props: UIRenderProps<MapImage>) => {

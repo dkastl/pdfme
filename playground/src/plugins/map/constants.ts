@@ -11,6 +11,10 @@ export const DEFAULT_MAP_VIEW = {
   zoom: 2,
 };
 
+export const DEFAULT_MAX_EXTENT = [-180,-90,180,90];
+export const DEFAULT_MIN_ZOOM = 1;
+export const DEFAULT_MAX_ZOOM = 18;
+
 export const DEFAULT_MAX_ZOOM_TO_EXTENT = 7;
 
 export const DEFAULT_MAP_STYLE_FILL = {
