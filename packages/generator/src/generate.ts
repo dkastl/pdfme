@@ -7,16 +7,21 @@ const generate = async (props: GenerateProps) => {
   checkGenerateProps(props);
   const { inputs, template, options = {}, plugins: userPlugins = {} } = props;
 
-  const { pdfDoc, embeddedPages, embedPdfBoxes, renderObj } = await preprocessing({
-    template,
-    userPlugins,
-  });
+  if (inputs.length === 0) {
+    throw new Error('inputs should not be empty');
+  }
+
+  const { pdfDoc, embeddedPages, embedPdfBoxes, renderObj, readOnlySchemaKeys } =
+    await preprocessing({ template, userPlugins });
+
+  const keys = readOnlySchemaKeys.concat(Object.keys(inputs[0]));
+  if (template.columns) {
+    keys.sort((a, b) => (template.columns ?? []).indexOf(a) - (template.columns ?? []).indexOf(b));
+  }
 
   const _cache = new Map();
-
   for (let i = 0; i < inputs.length; i += 1) {
     const inputObj = inputs[i];
-    const keys = Object.keys(inputObj);
     for (let j = 0; j < embeddedPages.length; j += 1) {
       const embeddedPage = embeddedPages[j];
       const { width: pageWidth, height: pageHeight } = embeddedPage;
@@ -29,9 +34,7 @@ const generate = async (props: GenerateProps) => {
         const key = keys[l];
         const schemaObj = template.schemas[j];
         const schema = schemaObj[key];
-        const value = inputObj[key];
-
-        if (!schema || !value) {
+        if (!schema) {
           continue;
         }
 
@@ -39,7 +42,7 @@ const generate = async (props: GenerateProps) => {
         if (!render) {
           continue;
         }
-
+        const value = schema.readOnly ? schema.readOnlyValue || '' : inputObj[key];
         await render({ key, value, schema, pdfLib, pdfDoc, page, options, _cache });
       }
     }

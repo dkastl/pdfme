@@ -2,36 +2,9 @@ import type * as CSS from 'csstype';
 import { UIRenderProps } from '@pdfme/common';
 import type { BarcodeSchema } from './types';
 import { validateBarcodeInput, createBarCode } from './helper.js';
-import { addAlphaToHex } from '../renderUtils.js';
+import { addAlphaToHex, isEditable, createErrorElm } from '../utils.js';
 
 const fullSize = { width: '100%', height: '100%' };
-
-const createErrorBarcodeElm = () => {
-  const container = document.createElement('div');
-  const containerStyle: CSS.Properties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...fullSize,
-  };
-  Object.assign(container.style, containerStyle);
-
-  const span = document.createElement('span');
-  const spanStyle: CSS.Properties = {
-    color: 'white',
-    background: 'red',
-    padding: '0.25rem',
-    fontSize: '12pt',
-    fontWeight: 'bold',
-    borderRadius: '2px',
-  };
-  Object.assign(span.style, spanStyle);
-
-  span.textContent = 'ERROR';
-  container.appendChild(span);
-
-  return container;
-};
 
 const blobToDataURL = (blob: Blob): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -71,20 +44,20 @@ export const uiRender = async (arg: UIRenderProps<BarcodeSchema>) => {
     alignItems: 'center',
     justifyContent: 'center',
     fontFamily: "'Open Sans', sans-serif",
-    opacity: schema.opacity,
   };
   Object.assign(container.style, containerStyle);
   rootElement.appendChild(container);
-  const editable = mode === 'form' || mode === 'designer';
+  const editable = isEditable(mode, schema);
   if (editable) {
     const input = document.createElement('input');
     const inputStyle: CSS.Properties = {
-      ...fullSize,
+      width: '100%',
       position: 'absolute',
       textAlign: 'center',
-      fontSize: '1rem',
-      color: '#000',
-      backgroundColor: editable || value ? addAlphaToHex(theme.colorPrimaryBg, 30) : 'none',
+      fontSize: '12pt',
+      fontWeight: 'bold',
+      color: theme.colorWhite,
+      backgroundColor: editable || value ? addAlphaToHex('#000000', 80) : 'none',
       border: 'none',
       display: 'flex',
       alignItems: 'center',
@@ -102,21 +75,18 @@ export const uiRender = async (arg: UIRenderProps<BarcodeSchema>) => {
       stopEditing && stopEditing();
     });
     container.appendChild(input);
-    if (mode === 'designer') {
-      input.setSelectionRange(value.length, value.length);
-      input.focus();
-    }
+    input.setSelectionRange(value.length, value.length);
+    input.focus();
   }
 
   if (!value) return;
   try {
     if (!validateBarcodeInput(schema.type, value))
-      throw new Error('[@pdfme/schemas] Invalid barcode input');
+      throw new Error('[@pdfme/schemas/barcodes] Invalid barcode input');
     const imgElm = await createBarcodeImageElm(schema, value);
     container.appendChild(imgElm);
   } catch (err) {
     console.error(`[@pdfme/ui] ${err}`);
-    const errorBarcodeElm = createErrorBarcodeElm();
-    container.appendChild(errorBarcodeElm);
+    container.appendChild(createErrorElm());
   }
 };

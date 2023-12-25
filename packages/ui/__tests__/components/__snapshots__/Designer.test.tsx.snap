@@ -17,7 +17,7 @@ exports[`Designer snapshot 1`] = `
           style="display: flex; align-items: center;"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-text ant-btn-icon-only"
             type="button"
           >
             <span
@@ -47,7 +47,7 @@ exports[`Designer snapshot 1`] = `
             
           </button>
           <span
-            class="ant-typography css-dev-only-do-not-override-zcfrx9"
+            class="ant-typography css-dev-only-do-not-override-gzal6t"
             style="color: rgb(255, 255, 255); font-size: 14px; margin: 8px;"
           >
             <strong>
@@ -56,7 +56,7 @@ exports[`Designer snapshot 1`] = `
             </strong>
           </span>
           <button
-            class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-text ant-btn-icon-only"
             type="button"
           >
             <span
@@ -96,7 +96,7 @@ exports[`Designer snapshot 1`] = `
     >
       <div>
         <button
-          class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-default ant-btn-icon-only"
+          class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-default ant-btn-icon-only"
           style="position: absolute; display: flex; align-items: center; justify-content: center; top: 1rem; right: 1rem; z-index: 100;"
           type="button"
         >
@@ -134,7 +134,7 @@ exports[`Designer snapshot 1`] = `
                 style="height: 40px; display: flex; align-items: center;"
               >
                 <span
-                  class="ant-typography css-dev-only-do-not-override-zcfrx9"
+                  class="ant-typography css-dev-only-do-not-override-gzal6t"
                   style="text-align: center; width: 100%;"
                 >
                   <strong>
@@ -143,7 +143,7 @@ exports[`Designer snapshot 1`] = `
                 </span>
               </div>
               <div
-                class="ant-divider css-dev-only-do-not-override-zcfrx9 ant-divider-horizontal"
+                class="ant-divider css-dev-only-do-not-override-gzal6t ant-divider-horizontal"
                 role="separator"
                 style="margin-top: 8px; margin-bottom: 8px;"
               />
@@ -163,7 +163,7 @@ exports[`Designer snapshot 1`] = `
                         style="display: flex; align-items: center; cursor: pointer; border: 1px solid transparent;"
                       >
                         <button
-                          class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-default ant-btn-icon-only"
+                          class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-default ant-btn-icon-only"
                           style="display: flex; align-items: center; background: none; box-shadow: none; padding-left: 0.25rem;"
                           type="button"
                         >
@@ -194,7 +194,7 @@ exports[`Designer snapshot 1`] = `
                           
                         </button>
                         <span
-                          class="ant-typography css-dev-only-do-not-override-zcfrx9"
+                          class="ant-typography css-dev-only-do-not-override-gzal6t"
                           style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%;"
                           title="Edit"
                         >
@@ -209,7 +209,7 @@ exports[`Designer snapshot 1`] = `
                         style="display: flex; align-items: center; cursor: pointer; border: 1px solid transparent;"
                       >
                         <button
-                          class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-default ant-btn-icon-only"
+                          class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-default ant-btn-icon-only"
                           style="display: flex; align-items: center; background: none; box-shadow: none; padding-left: 0.25rem;"
                           type="button"
                         >
@@ -240,7 +240,7 @@ exports[`Designer snapshot 1`] = `
                           
                         </button>
                         <span
-                          class="ant-typography css-dev-only-do-not-override-zcfrx9"
+                          class="ant-typography css-dev-only-do-not-override-gzal6t"
                           style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%;"
                           title="Edit"
                         >
@@ -271,7 +271,7 @@ exports[`Designer snapshot 1`] = `
                   style="display: flex; align-items: center; justify-content: flex-end; height: 40px; border-bottom: 1px solid rgba(5, 5, 5, 0.06);"
                 >
                   <button
-                    class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-text ant-btn-sm"
+                    class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-text ant-btn-sm"
                     type="button"
                   >
                     <u>
@@ -288,7 +288,7 @@ exports[`Designer snapshot 1`] = `
             style="position: absolute; bottom: 1.5rem; margin-top: 1rem; left: 50%; transform: translateX(-50%);"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-zcfrx9 ant-btn-primary"
+              class="ant-btn css-dev-only-do-not-override-gzal6t ant-btn-primary"
               style="font-weight: 600;"
               type="button"
             >
@@ -472,17 +472,17 @@ exports[`Designer snapshot 1`] = `
             <div
               class="selectable"
               id="1"
-              style="position: absolute; cursor: pointer; height: 56.692913386499995px; width: 377.95275591px; top: 75.590551182px; left: 75.590551182px; transform: rotate(0deg); outline: 1px dashed #1677ff;"
+              style="position: absolute; cursor: pointer; height: 56.692913386499995px; width: 377.95275591px; top: 75.590551182px; left: 75.590551182px; transform: rotate(0deg); opacity: 1; outline: 1px dashed #1677ff;"
               title="field1"
             >
               <div
                 style="height: 100%; width: 100%;"
               >
                 <div
-                  style="padding: 0px; resize: none; background-color: transparent; display: flex; flex-direction: column; justify-content: flex-start; width: 100%; height: 100%;"
+                  style="padding: 0px; resize: none; background-color: rgba(230, 244, 255, 0.302); display: flex; flex-direction: column; justify-content: flex-start; width: 100%; height: 100%;"
                 >
                   <div
-                    style="font-family: inherit; color: rgb(0, 0, 0); font-size: 30pt; letter-spacing: 0pt; line-height: 1em; text-align: left; white-space: pre-wrap; word-break: break-word; margin-bottom: 0px; padding-top: 3.436640625px;"
+                    style="font-family: inherit; color: rgb(0, 0, 0); font-size: 30pt; letter-spacing: 0pt; line-height: 1em; text-align: left; white-space: pre-wrap; word-break: break-word; resize: none; outline: none; margin-bottom: 0px; padding-top: 3.436640625px; background-color: transparent;"
                   >
                     <span
                       style="letter-spacing:inherit;"
@@ -503,18 +503,18 @@ exports[`Designer snapshot 1`] = `
             <div
               class="selectable"
               id="2"
-              style="position: absolute; cursor: pointer; height: 151.181102364px; width: 377.95275591px; top: 132.2834645685px; left: 75.590551182px; transform: rotate(0deg); outline: 1px dashed #1677ff;"
+              style="position: absolute; cursor: pointer; height: 151.181102364px; width: 377.95275591px; top: 132.2834645685px; left: 75.590551182px; transform: rotate(0deg); opacity: 1; outline: 1px dashed #1677ff;"
               title="field2"
             >
               <div
                 style="height: 100%; width: 100%;"
               >
                 <div
-                  style="width: 100%; height: 100%; background-image: none; background-size: 377.95275591px 151.181102364px;"
+                  style="width: 100%; height: 100%; background-image: none; background-size: contain; background-repeat: no-repeat; background-position: center;"
                 >
                   <img
                     src="aaaaaaaaaaaa"
-                    style="height: 100%; width: 100%; border-radius: 0;"
+                    style="height: 100%; width: 100%; border-radius: 0; object-fit: contain;"
                   />
                 </div>
               </div>

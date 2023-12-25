@@ -1,7 +1,18 @@
 import { Template, Font, checkTemplate } from '@pdfme/common';
 import { Form, Viewer, Designer } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
-import { text, barcodes, image } from '@pdfme/schemas';
+import {
+  text,
+  readOnlyText,
+  barcodes,
+  image,
+  readOnlyImage,
+  svg,
+  readOnlySvg,
+  line,
+  rectangle,
+  ellipse,
+} from '@pdfme/schemas';
 import plugins from './plugins';
 
 const fontObjList = [
@@ -97,10 +108,17 @@ ${e}`);
 export const getPlugins = () => {
   return {
     Text: text,
-    Signature: plugins.signature,
-    QR: barcodes.qrcode,
+    ReadOnlyText: readOnlyText,
+    Line: line,
+    Rectangle: rectangle,
+    Ellipse: ellipse,
     Image: image,
-    Map: plugins.mapimage,
+    ReadOnlyImage: readOnlyImage,
+    SVG: svg,
+    ReadOnlySvg: readOnlySvg,
+    QR: barcodes.qrcode,
+    Code128: barcodes.code128,
+    Signature: plugins.signature,
   };
 };
 

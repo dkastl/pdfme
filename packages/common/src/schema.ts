@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const langs = ['en', 'ja', 'ar', 'th', 'pl', 'it'] as const;
+const langs = ['en', 'ja', 'ar', 'th', 'pl', 'it', 'de'] as const;
 
 export const Lang = z.enum(langs);
 export const Dict = z.object({
@@ -26,7 +26,11 @@ export const Dict = z.object({
   errorBulkUpdateFieldName: z.string(),
   commitBulkUpdateFieldName: z.string(),
   bulkUpdateFieldName: z.string(),
+  hexColorPrompt: z.string(),
   // -----------------used in schemas-----------------
+  'schemas.color': z.string(),
+  'schemas.borderWidth': z.string(),
+  'schemas.borderColor': z.string(),
   'schemas.textColor': z.string(),
   'schemas.bgColor': z.string(),
   'schemas.horizontal': z.string(),
@@ -51,12 +55,15 @@ export const Dict = z.object({
 
   'schemas.barcodes.barColor': z.string(),
 });
+export const Mode = z.enum(['viewer', 'form', 'designer']);
 
 export const Size = z.object({ height: z.number(), width: z.number() });
 
 export const Schema = z
   .object({
     type: z.string(),
+    readOnly: z.boolean().optional(),
+    readOnlyValue: z.string().optional(),
     position: z.object({ x: z.number(), y: z.number() }),
     width: z.number(),
     height: z.number(),

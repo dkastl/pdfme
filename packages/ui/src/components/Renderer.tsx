@@ -29,12 +29,13 @@ const Wrapper = ({
     id={schema.id}
     style={{
       position: 'absolute',
-      cursor: 'pointer',
+      cursor: schema.readOnly ? 'initial' : 'pointer',
       height: schema.height * ZOOM,
       width: schema.width * ZOOM,
       top: schema.position.y * ZOOM,
       left: schema.position.x * ZOOM,
       transform: `rotate(${schema.rotate ?? 0}deg)`,
+      opacity: schema.opacity ?? 1,
       outline,
     }}
   >
@@ -71,7 +72,7 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
 
       render({
         key: schema.key,
-        value: schema.data,
+        value: schema.readOnly ? schema.readOnlyValue || '' : schema.data,
         schema,
         rootElement: ref.current,
         mode,

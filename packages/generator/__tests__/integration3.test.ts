@@ -1,11 +1,32 @@
 import { writeFileSync } from 'fs';
 import generate from '../src/generate';
-import { textType, other } from './assets/templates';
-import { text, image } from '@pdfme/schemas';
+import { other, shape } from './assets/templates';
+import {
+  text,
+  image,
+  line,
+  rectangle,
+  ellipse,
+  readOnlyText,
+  barcodes,
+  readOnlySvg,
+} from '@pdfme/schemas';
 import { getFont, getPdf, getPdfTmpPath, getPdfAssertPath } from './utils';
 
-describe('generate integration test(textType, other)', () => {
-  describe.each([textType, other])('%s', (templateData) => {
+const signature = {
+  pdf: image.pdf,
+  ui: () => {},
+  propPanel: {
+    ...image.propPanel,
+    defaultSchema: {
+      ...image.propPanel.defaultSchema,
+      type: 'signature',
+    },
+  },
+};
+
+describe('generate integration test(other, shape)', () => {
+  describe.each([other, shape])('%s', (templateData) => {
     const entries = Object.entries(templateData);
     for (let l = 0; l < entries.length; l += 1) {
       const [key, template] = entries[l];
@@ -26,12 +47,23 @@ describe('generate integration test(textType, other)', () => {
         const pdf = await generate({
           inputs,
           template,
-          plugins: { text, image },
+          plugins: {
+            text,
+            image,
+            line,
+            rectangle,
+            ellipse,
+            signature,
+            qrcode: barcodes.qrcode,
+            readOnlyText,
+            readOnlySvg,
+          },
           options: { font },
         });
 
         const hrend = process.hrtime(hrstart);
-        expect(hrend[0]).toBeLessThanOrEqual(1);
+        const execSeconds = hrend[0] + hrend[1] / 1000000000;
+        expect(execSeconds).toBeLessThan(1.5);
 
         const tmpFile = getPdfTmpPath(`${key}.pdf`);
         const assertFile = getPdfAssertPath(`${key}.pdf`);
