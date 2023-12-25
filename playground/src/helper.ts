@@ -119,6 +119,7 @@ export const getPlugins = () => {
     QR: barcodes.qrcode,
     Code128: barcodes.code128,
     Signature: plugins.signature,
+    Map: plugins.mapimage,
   };
 };
 
